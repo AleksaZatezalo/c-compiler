@@ -5,27 +5,33 @@ typedef enum{
     SEMI,
     OPEN_PAREN,
     CLOSE_PAREN,
-} TokenTypeSeperator;
+} TypeSeperator;
 
 typedef enum{
     EXIT,
-} TokenTypeKeyword;
+} TypeKeyword;
 typedef enum{
     INT,
-} TokenTypeLiteral;
-
+} TypeLiteral;
 
 typedef struct{
+    TypeSeperator type;
 } TokenSeperator;
 
 typedef struct{
+    TypeKeyword type;
 } TokenKeyword;
 
 typedef struct{
+    TypeLiteral type;
+    int value;
 } TokenLiteral;
 
 
 int main(){
-    printf("Hello, world!\n");
+    TokenLiteral token;
+    token.type = INT;
+    token.value = 5;
+    printf("%d\n", token.value);
     return 0;
 }
