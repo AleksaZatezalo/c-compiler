@@ -14,6 +14,17 @@ typedef enum{
     INT,
 } TokenTypeLiteral;
 
+
+typedef struct{
+} TokenSeperator;
+
+typedef struct{
+} TokenKeyword;
+
+typedef struct{
+} TokenLiteral;
+
+
 int main(){
     printf("Hello, world!\n");
     return 0;
