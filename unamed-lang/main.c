@@ -59,6 +59,8 @@ TokenKeyword *generate_keyword(char current, FILE *file){
         keyword[keyword_index] = current;
         current = fgetc(file);
     }
+
+    printf("%s", keyword);
    
     if(!strcmp(keyword, "exit")){
         token->type = EXIT;
