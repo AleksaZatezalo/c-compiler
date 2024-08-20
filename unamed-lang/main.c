@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <string.h>
 
 typedef enum{
     SEMI,
@@ -43,13 +44,33 @@ TokenLiteral *generate_number(char current, FILE *file){
         current = fgetc(file);
     }
     token->value = value;
-    return(token);
+    return token;
+}
+
+TokenKeyword *generate_keyword(char current, FILE *file){
+    TokenKeyword *token = malloc(sizeof(TokenKeyword));
+    char *keyword= malloc(sizeof(char) * 4);
+    int keyword_index = 0; 
+    while(isalpha(current) && current != EOF){
+        if(current == '('){
+            printf("FOUND OPEN PAREN\n");
+            break;
+        }
+        keyword[keyword_index] = current;
+        current = fgetc(file);
+    }
+   
+    if(!strcmp(keyword, "exit")){
+        token->type = EXIT;
+    }
+    return token;
 }
 
 void lexer(FILE *file){
     char current = fgetc(file);
 
     while(current != EOF){
+        printf("%c\n", current);
         if(current == ';'){
             printf("FOUND SEMICOLON\n");
         } else if (current == '('){
@@ -60,6 +81,7 @@ void lexer(FILE *file){
             TokenLiteral *test_token = generate_number(current, file);
             printf("TEST TOKEN VALUE: %s\n", test_token->value);
         } else if (isalpha(current)){
+            TokenKeyword *test_keyword = generate_keyword(current, file);
             printf("Found CHARACTER %c\n", current);
         }
         current = fgetc(file);
