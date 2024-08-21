@@ -49,7 +49,7 @@ TokenLiteral *generate_number(char current, FILE *file){
 
 TokenKeyword *generate_keyword(char current, FILE *file){
     TokenKeyword *token = malloc(sizeof(TokenKeyword));
-    char *keyword= malloc(sizeof(char) * 4);
+    char *keyword= malloc(sizeof(char) * 8);
     int keyword_index = 0; 
     while(isalpha(current) && current != EOF){
         if(current == '('){
@@ -57,11 +57,13 @@ TokenKeyword *generate_keyword(char current, FILE *file){
             break;
         }
         keyword[keyword_index] = current;
+        keyword_index++;
         current = fgetc(file);
     }
-
-    printf("%s", keyword);
-   
+    for (int i = 0; i < keyword_index; i++){
+        printf("%c\n", keyword[i]);
+    }   
+    
     if(!strcmp(keyword, "exit")){
         token->type = EXIT;
     }
@@ -72,7 +74,6 @@ void lexer(FILE *file){
     char current = fgetc(file);
 
     while(current != EOF){
-        printf("%c\n", current);
         if(current == ';'){
             printf("FOUND SEMICOLON\n");
         } else if (current == '('){
@@ -84,7 +85,9 @@ void lexer(FILE *file){
             printf("TEST TOKEN VALUE: %s\n", test_token->value);
         } else if (isalpha(current)){
             TokenKeyword *test_keyword = generate_keyword(current, file);
-            printf("Found CHARACTER %c\n", current);
+            if(test_keyword->type == EXIT){
+                printf("EXIT\n");
+            }    
         }
         current = fgetc(file);
     }
