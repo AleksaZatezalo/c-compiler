@@ -1,14 +1,21 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(){
-    FILE *fp;
-    char buffer[0];
+    FILE *file;
+    char *buffer = 0;
+    long length;
 
-    fp = fopen("./test.unn", "r");
+    file = fopen("test.unn", "r");
 
-    fread(buffer, 1, 1, fp);
+    fseek(file, 0, SEEK_END);
+    length = ftell(file);
+    fseek(file, 0 , SEEK_SET);
+    buffer = malloc(length);
+
+    fread(buffer, 1, length, file);
     printf("%c\n", *buffer);
-    fclose(fp);
+    fclose(file);
 
     return 0;
 }
